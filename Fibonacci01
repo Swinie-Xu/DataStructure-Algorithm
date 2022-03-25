@@ -1,0 +1,10 @@
+class Solution {
+public:
+    // 记忆化搜索
+    int f[50]{0};
+    int Fibonacci(int n) {
+        if(n<=2) return 1;
+        if(f[n]>0) return f[n]; // 大于0表明结果计算过，可以直接索引
+        return f[n] = Fibonacci(n-1) + Fibonacci(n-2); // 计算的代价确实大于索引
+    }
+};
