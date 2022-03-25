@@ -1,0 +1,7 @@
+class Solution {
+public:
+// 最简单的实现方式 按公式递归
+    int Fibonacci(int n) {
+        return n>2?Fibonacci(n-1) + Fibonacci(n-2):1;
+    }
+};
