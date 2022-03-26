@@ -1,0 +1,27 @@
+class Solution
+{
+    // 其实也可以每次都全部倒进一个栈，实现输入输出
+public:
+    void push(int node) {
+        stack1.push(node);
+
+    }
+
+    int pop() {
+        while(stack2.empty())  // 这里需要判断前面是否已经出过队列
+        {
+            while(!stack1.empty())
+            {
+                stack2.push(stack1.top());
+                stack1.pop();
+            }
+        }
+        int ret = stack2.top();
+        stack2.pop();
+        return ret;
+    }
+
+private:
+    stack<int> stack1;
+    stack<int> stack2;
+};
