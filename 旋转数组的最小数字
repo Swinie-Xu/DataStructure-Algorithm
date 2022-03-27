@@ -14,7 +14,8 @@ public:
                 return rotateArray[left];
             }
             
-            int mid = (left+right)/2;
+            // int mid = (left+right)/2;
+            int mid=left+right>>1;//加法的优先级高于位运算 所以不需要加括号
             // 这里不知道为什么要跟右边的比较。。。
             if (rotateArray[mid]>rotateArray[right])
             {
