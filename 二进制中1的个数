@@ -1,0 +1,17 @@
+class Solution {
+public:
+     int  NumberOf1(int n) {
+         // 这个答案是纯粹抄的。。。因为不理解为什么负数用补码表示，就能够用无符号数操作
+         unsigned int un=(unsigned int) n; //强制类型转换，解决补码
+         int answer=0; //记录答案
+         //开始短除
+     while(un>1){
+         if (un%2==1)
+             answer++; //对应位有1
+         un=un/2;
+     }
+         if (un == 1) //最后的余数还要再处理一下
+             answer++;
+         return answer;
+     }
+};
