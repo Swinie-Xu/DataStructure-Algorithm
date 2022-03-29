@@ -8,34 +8,18 @@ struct ListNode {
 };*/
 class Solution {
 public:
-    // 发现一个问题，就是这个错误
-    // 运行错误:请检查是否存在数组、列表等越界非法访问，内存非法访问等情况
-    // 就是因为没有new一个节点出来
-    
-    
-    // 这是我用堆栈做出来的，比较拉胯，还不是一次性做出来的
-    
-    
+    // 三个指针太牛逼了！！！
     ListNode* ReverseList(ListNode* pHead) {
-        stack<int> s;
-        if(!pHead) return nullptr;
-        while(pHead)
+        ListNode* cur = pHead;
+        ListNode* nex = cur->next;
+        ListNode* pre = nullptr;
+        while(cur)
         {
-            s.push(pHead->val);
-            pHead = pHead->next;
+            nex = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = nex;
         }
-        ListNode * head = new ListNode(s.top());
-        s.pop();
-        ListNode * temp = head;
-        while(!s.empty())
-        {
-            ListNode * node = new ListNode(s.top());
-            s.pop();
-            //node->next = nullptr;
-            temp->next = node;
-            temp = node;
-        }
-        return head;
-
+        return pre;
     }
 };
