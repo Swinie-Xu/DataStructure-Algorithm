@@ -1,0 +1,46 @@
+/**
+ * struct ListNode {
+ *	int val;
+ *	struct ListNode *next;
+ *	ListNode(int x) : val(x), next(nullptr) {}
+ * };
+ */
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param pHead ListNode类 
+     * @param k int整型 
+     * @return ListNode类
+     */
+    
+    
+    
+    
+    // 这个代码耗时耗空间，我自己写的。。。
+    ListNode* FindKthToTail(ListNode* pHead, int k) {
+        // write code here
+        int length = 0;
+        ListNode* node = new ListNode(-1);
+        node = pHead;
+        while(node)
+        {
+            length ++;   // 这里就是计算链表的长度，方便计算正着数的位置
+            node = node->next;
+        }
+        if(length == 0 || k>length)  // 这里就是判断链表是否为空或者k超出链表范围
+        {
+            return node;
+        }
+        
+        node = pHead;
+        for(int i=1;i<length+1-k;i++)  // 正着数过去返回结果
+        {
+            node=node->next;
+        }
+        return node;
+
+    }
+};
