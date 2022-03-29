@@ -19,28 +19,21 @@ public:
     
     
     
-    // 这个代码耗时耗空间，我自己写的。。。
+    // 看别人写的，快慢指针，牛逼了！！！但是我没有弄得非常清楚。。。
     ListNode* FindKthToTail(ListNode* pHead, int k) {
         // write code here
-        int length = 0;
-        ListNode* node = new ListNode(-1);
-        node = pHead;
-        while(node)
+        ListNode* node_fast = pHead;
+        ListNode* node_slow = pHead;
+        while( k-- && node_fast)
         {
-            length ++;   // 这里就是计算链表的长度，方便计算正着数的位置
-            node = node->next;
+            node_fast = node_fast->next;
         }
-        if(length == 0 || k>length)  // 这里就是判断链表是否为空或者k超出链表范围
+        if(k>=0) return nullptr; 
+        while(node_fast)
         {
-            return node;
+            node_slow = node_slow->next;
+            node_fast = node_fast->next;
         }
-        
-        node = pHead;
-        for(int i=1;i<length+1-k;i++)  // 正着数过去返回结果
-        {
-            node=node->next;
-        }
-        return node;
-
+        return node_slow;
     }
 };
