@@ -17,17 +17,22 @@ public:
      */
     TreeNode* Mirror(TreeNode* pRoot) {
         // write code here
-        // 实话讲，这是我抄的代码，我不想再自己想了，本来就是现成的解决方案，我为啥要自己想。
-        // 但是我也觉得，这样进步最快吧，我不需要多牛逼，只需要会实现就行，理解实现道理就行
-        if(pRoot)  //判断边界条件，是否为空树 空树递归结束
+        // 也是看着答案写的，勉强理解了吧，下一次自己写一次就行。
+        if(!pRoot) return pRoot; // 空树直接返回
+        stack<TreeNode*> s; //创建辅助栈结构
+        s.push(pRoot); //将根结点压入栈内
+        while(!s.empty())
         {
-            /*交换*/
-            TreeNode* tmp = pRoot->left;//定义一个缓冲指针
-            pRoot->left = pRoot->right;//左树等于右树
-            pRoot->right = tmp;//右树等于左树（缓冲）
-            /*递归*/
-            pRoot->left = Mirror(pRoot->left);//递归左树
-            pRoot->right = Mirror(pRoot->right);//递归右树
+            //根节点弹栈
+            TreeNode* node = s.top();
+            s.pop();
+            //如果根结点不为null，则将其左右子树分别压入栈内
+            if(node->left) s.push(node->left);
+            if(node->right) s.push(node->right);
+            //然后交换左右子树
+            TreeNode* tmp = node->left;
+            node->left = node->right;
+            node->right = tmp;
         }
         return pRoot;
     }
