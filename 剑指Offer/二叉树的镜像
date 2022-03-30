@@ -1,0 +1,34 @@
+/**
+ * struct TreeNode {
+ *	int val;
+ *	struct TreeNode *left;
+ *	struct TreeNode *right;
+ *	TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ * };
+ */
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param pRoot TreeNode类 
+     * @return TreeNode类
+     */
+    TreeNode* Mirror(TreeNode* pRoot) {
+        // write code here
+        // 实话讲，这是我抄的代码，我不想再自己想了，本来就是现成的解决方案，我为啥要自己想。
+        // 但是我也觉得，这样进步最快吧，我不需要多牛逼，只需要会实现就行，理解实现道理就行
+        if(pRoot)  //判断边界条件，是否为空树 空树递归结束
+        {
+            /*交换*/
+            TreeNode* tmp = pRoot->left;//定义一个缓冲指针
+            pRoot->left = pRoot->right;//左树等于右树
+            pRoot->right = tmp;//右树等于左树（缓冲）
+            /*递归*/
+            pRoot->left = Mirror(pRoot->left);//递归左树
+            pRoot->right = Mirror(pRoot->right);//递归右树
+        }
+        return pRoot;
+    }
+};
