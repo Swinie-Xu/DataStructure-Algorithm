@@ -1,0 +1,36 @@
+class Solution {
+public:
+    stack<int> raw,min_value;
+    int minvalue = 10000;
+    void push(int value) {
+        raw.push(value);
+        if(min_value.empty()) // 要注意判断min_value栈空的时候，是直接压栈，不是入栈之前的最小值啊！！！
+        {
+            min_value.push(value);
+            minvalue = value; // 空栈压进去的第一个就是minvalue哈
+        }
+        else
+        {
+            if(value<=minvalue)
+            {
+                min_value.push(value);
+                minvalue = value;
+            }
+            else
+            {
+                min_value.push(minvalue);
+            }
+        }
+
+    }
+    void pop() {
+        raw.pop();
+        min_value.pop();
+    }
+    int top() {
+        return raw.top();
+    }
+    int min() {
+        return min_value.top();
+    }
+};
