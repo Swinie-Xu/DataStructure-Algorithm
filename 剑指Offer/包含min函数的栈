@@ -1,36 +1,28 @@
 class Solution {
 public:
-    stack<int> raw,min_value;
-    int minvalue = 10000;
+    stack<int> normal, minval;
     void push(int value) {
-        raw.push(value);
-        if(min_value.empty()) // 要注意判断min_value栈空的时候，是直接压栈，不是入栈之前的最小值啊！！！
-        {
-            min_value.push(value);
-            minvalue = value; // 空栈压进去的第一个就是minvalue哈
+        normal.push(value);
+        if (minval.empty()) {
+            minval.push(value);
         }
-        else
-        {
-            if(value<=minvalue)
-            {
-                min_value.push(value);
-                minvalue = value;
+        else {
+            if (value <= minval.top()) {  // 用的是栈的自由函数top()表示最小值，这个是可以通过的，不知道我写的差在哪了。
+                minval.push(value);
             }
-            else
-            {
-                min_value.push(minvalue);
+            else {
+                minval.push(minval.top());
             }
         }
-
     }
     void pop() {
-        raw.pop();
-        min_value.pop();
+        normal.pop();
+        minval.pop();
     }
     int top() {
-        return raw.top();
+        return normal.top();
     }
     int min() {
-        return min_value.top();
+        return minval.top();
     }
 };
