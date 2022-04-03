@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int FindGreatestSumOfSubArray(vector<int> array) {
+    /*
+    第一种描述
+    设动态规划列表 dp，dp[i] 代表以元素 array[i] 为结尾的连续子数组最大和。
+    状态转移方程： dp[i] = Math.max(dp[i-1]+array[i], array[i]);
+    
+    
+    第二种描述
+    设dp[n]为以第n个数为结尾，得到的子数组的和的最大值
+
+    因为以第n个数为结尾所以array[n]是必然被选择的
+
+    基于dp[n-1]的值，如果dp[n-1]>0，我们加上这个正数，我们的值是不是必然会增大
+
+    如果dp[n-1]<0,那么我们加上负数，我们的值就会减小，这个时候我们不如不要前面的结果，只要当前这个数，结果反而更优
+
+    于是我们就得到了状态转移方程dp[n]=array[n]+(dp[n-1]>0?dp[n-1]:0)，实时跟ans比较，更新最大值即可
+    */
+        int length = array.size();
+        if(length == 0) return 0;
+        // dp[i] 表示以array[i]结尾的和最大的连续子数组的和
+        int dp[length];
+        dp[0] = array[0];
+        int res = array[0]; // 记录最大的和的值
+        for(int i=1;i<length;i++)
+        {
+            dp[i] = max(dp[i-1]+array[i],array[i]);
+            res = max(res,dp[i]);
+        }
+        return res;
+        
+    }
+};
