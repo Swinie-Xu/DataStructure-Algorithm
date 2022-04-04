@@ -1,12 +1,36 @@
 class Solution {
 public:
     int MoreThanHalfNum_Solution(vector<int> numbers) {
-        // 可以先将数组排序，然后可能的众数肯定在数组中间，然后判断一下。
-        // 这个我确实没想到，因为至少个数超过一半，所以如果存在肯定在中间。
-        sort(numbers.begin(),numbers.end());
-        int cond = numbers[numbers.size()/2];
+        /*
+        加入数组中存在众数，那么众数一定大于数组的长度的一半。
+        思想就是：如果两个数不相等，就消去这两个数，最坏情况下，每次消去一个众数和一个非众数，那么如果存在众数，最后留下的数肯定是众数。
+
+        具体做法：
+
+        初始化：候选人cond = -1， 候选人的投票次数cnt = 0
+        遍历数组，如果cnt=0， 表示没有候选人，则选取当前数为候选人，++cnt
+        否则，如果cnt > 0, 表示有候选人，如果当前数=cond，则++cnt，否则--cnt
+        直到数组遍历完毕，最后检查cond是否为众数
+        */
+        int cond = -1;
         int cnt = 0;
-        for(const int k : numbers)  // 这种写法，我是不是应该掌握一下
+        for(const int k:numbers)
+        {
+            if(cnt == 0) cond = k,++cnt;
+            if(cnt>0)
+            {
+                if(cond == k)
+                {
+                    ++cnt;
+                }
+                else
+                {
+                    --cnt; // 这里其实在同时去掉一个众数和一个非众数，所以这个cnt并不是真实的众数个数
+                }
+            }
+        }
+        cnt = 0; // 给计数变量清零，重新判断cond是否为众数
+        for(const int k :numbers)
         {
             if(cond == k) ++cnt;
         }
