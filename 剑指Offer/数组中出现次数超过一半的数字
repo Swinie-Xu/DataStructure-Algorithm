@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+        // 可以先将数组排序，然后可能的众数肯定在数组中间，然后判断一下。
+        // 这个我确实没想到，因为至少个数超过一半，所以如果存在肯定在中间。
+        sort(numbers.begin(),numbers.end());
+        int cond = numbers[numbers.size()/2];
+        int cnt = 0;
+        for(const int k : numbers)  // 这种写法，我是不是应该掌握一下
+        {
+            if(cond == k) ++cnt;
+        }
+        if(cnt>numbers.size()/2) return cond;
+        return 0;
+    }
+};
