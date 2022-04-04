@@ -17,7 +17,7 @@ public:
         for(const int k:numbers)
         {
             if(cnt == 0) cond = k,++cnt;
-            if(cnt>0)
+            else  // 这里写if(cnt>0)会出错，服了！
             {
                 if(cond == k)
                 {
