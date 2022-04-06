@@ -1,31 +1,33 @@
 class Solution {
 public:
     int GetNumberOfK(vector<int> data ,int k) {
-        // 自己写的超级混乱的版本，逻辑根本不够健全
-        int cnt = 0;
-        if(data.size() == 1) data[0] == k ? ++cnt  : cnt;  // 不知道为啥，单个元素的数组无法在通用的处理中处理掉
-        int left = 0, right = data.size()-1;
-        int mid = (left+right)/2;
-        int index = 0;
-        while(left<right)   // 二分求解很难顶。。。估计是逻辑不够清晰，套路记得不熟练
+        int lbound = 0,rbound = 0;
+        // 寻找上界，这里只移动左下标就可以实现最终的下标指向上届（左界）
+        int l=0,r=data.size();  // 二分查找，一定记住右边界r在外面需要写A.size()不需要-1，这样对于size = 1的数组也可以判断
+        while(l<r)
         {
-            if(data[mid]>k) right = mid-1;
-            else if (data[mid]<k) left = mid+1;
-            else if(data[mid] == k)
+            int mid = (l+r-1)/2;   // 因为r是size所以实际索引需要-1哈
+            if(data[mid]<k)  // 指向左边第一个目标位置，不用等号data[mid]<=k
             {
-                index = mid;
-                ++cnt;
-                // 下面两行，找到一个满足要求的元素以后就开始遍历，从中间往两边
-                // 但后面感觉还不如直接循环来的简单，时间复杂度一样，服了，根本不满足要求
-                for (int i = index-1,j = index+1;i>=0,j<=data.size();--i,++j)
-                    {
-                        if(data[i] == k) ++cnt;
-                        if(data[j] == k) ++cnt;
-                    }
-                break;
+                l = mid+1;    
             }
-            mid = (left+right)/2;
+            else r = mid;    // 下界就是mid；
         }
-        return cnt;
+        lbound = l;       // 不加等号，搜出来就是左（上）边界
+        
+        // 寻找下界
+        l=0,r=data.size();
+        while(l<r)
+        {
+            int mid = (l+r-1)/2;
+            if(data[mid] <= k)  // 指向右边第一个目标位置，加等号data[mid]<=k
+            {
+                l = mid+1;    
+            }
+            else r = mid;    // 下界就是mid；
+        }
+        rbound = l;       // 不加等号，搜出来就是左（上）边界
+        return rbound - lbound;
+        
     }
 };
