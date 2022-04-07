@@ -16,7 +16,11 @@ public:
         // 太牛逼了！！！头脑清醒的时候，写个代码一把过太爽了。
         // 当然，不是我自己想出来的思路，看了bilibili的讲解，只看了思路，立马来写的，舒服！
         // 动态规划，直接爱了！！！
-        vector<vector<int> > DP = grid;
+        
+        // 空间优化 1.原地更改啊！直接在grid上面改，毕竟也用不到原始数据了
+        // 空间优化 2.定义以为数组DP[cols]来做，0 - j-1是该节点左边的最大值，j - end 是上面一行从j到end的最大值
+        // 本代码用的一维数组，DP[j]表示当前计算节点上一行的节点，DP[j-1]表示左边的节点，当然最后赋值也是给的DP[j]
+        vector<int> DP = grid[0];  // 一维数组
         int rows=grid.size();
         int cols=grid[0].size();
         
@@ -24,13 +28,13 @@ public:
         {
             for(int j=0;j<cols;++j)
             {
-                if( i==0 && j==0 ) DP[i][j] = grid[i][j];
-                if( i==0 && j>0 ) DP[i][j] = DP[i][j-1] + grid[i][j];
-                if( i>0 && j==0 ) DP[i][j] = DP[i-1][j] + grid[i][j];
-                if( i>0 && j>0 ) DP[i][j] = max(DP[i][j-1],DP[i-1][j]) + grid[i][j];
+                if( i==0 && j==0 ) DP[j] = grid[i][j];
+                if( i==0 && j>0 ) DP[j] = DP[j-1] + grid[i][j];
+                if( i>0 && j==0 ) DP[j] = DP[j] + grid[i][j];
+                if( i>0 && j>0 ) DP[j] = max(DP[j-1],DP[j]) + grid[i][j];
             }
         }
         
-        return DP[rows-1][cols-1];
+        return DP[cols-1];
     }
 };
