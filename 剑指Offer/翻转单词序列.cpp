@@ -1,49 +1,33 @@
 class Solution {
 public:
     string ReverseSentence(string str) {
-        // 完全我自己写的东西
-        // 首先用临时字符串记录整个单词，遇到空格就执行插入空格和插入完整单词的操作
-        // 需要注意，第一次是不需要插入空格的，只需要插入临时字符串，用cnt标记是否为第一次
-        // 需要注意，末尾还差一次插入操作，因为没有空格去触发了
-        // 另外还需要注意，如果是单个单词的话，也需要加入一个标记变量single去判别
-        string dd;
+        // 真的服了，果然是对功能运用出了问题，卡了我他妈一大堆时间
+        // string.append(str,index,length) 不是范围索引，是从索引开始往后面几个字符
+        // 真的他妈服了！！！！
+        
+        // 用的双指针，从右边往左边指
+        // 右指针表示结尾的index
+        // 左指针表示开始的前一个位置，即空格位置
+        // 遇到空格之后，需要整体将左右指针全部左移
+        // 注意结尾的地方，还需要append剩下的一个单词
+        
+        int left=str.size()-1;
+        int right = left;
         string tmp;
-        bool cnt = false;
-        bool single = true;
-        if(str.empty()) return str;
-        for(auto k:str)
+        string test;
+        while(left != -1)
         {
-            if(k!=' ')   // 首先用临时字符串记录整个单词
+            if(str[left] == ' ')
             {
-                tmp.append(1,k);
+                test=str.substr(left+1,right-left);
+                tmp.append(str,left+1,right-left);
+                tmp += ' ';
+                while(str[left]==' ') left--;
+                right = left;
             }
-            
-            if(k == ' ')
-            {
-                single = false;
-                if( !cnt )     // 需要注意，第一次是不需要插入空格的，只需要插入临时字符串，用cnt标记是否为第一次
-                {
-                    dd.append(tmp);
-                    tmp.clear();
-                    cnt = true;
-                }
-                else
-                {
-                    dd.insert(dd.begin(),' ');
-                    dd.insert(0, tmp);
-                    tmp.clear();
-                }
-
-            }
-            if(k == str[str.size()-1])   // 需要注意，末尾还差一次插入操作，因为没有空格去触发了
-            {
-                if(single) return str;
-                dd.insert(dd.begin(),' ');
-                dd.insert(0, tmp);
-                tmp.clear();
-            }
+            left--;
         }
-
-        return dd;
+        tmp.append(str,left+1,right-left);
+        return tmp;
     }
 };
