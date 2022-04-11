@@ -1,18 +1,22 @@
 class Solution {
 public:
+    // 递归版本的快速幂
+    double quick_power(double base,int exponent)
+    {
+        if(exponent==0) return 1.0;
+        double ret = quick_power(base, exponent/2);
+        if( exponent&1 )   // exponent&1 判断为奇数
+        {
+            return ret*ret*base;
+        }else return ret*ret;
+    }
+    
     double Power(double base, int exponent) {
-        // 自己写的代码，忘了考虑负数幂的情况
-        // 就是用的最原始的数学定义，多个数累乘
-        double ret = 1.0;
-        if(exponent>0)
+        if(exponent<0)
         {
-            for (int i=1;i<=exponent;++i ) ret*=base;
-            return ret;
+            base = 1/base;
+            exponent = -exponent;
         }
-        else 
-        {
-            for(int i=1;i<=-exponent;++i ) ret*=base;
-            return 1/ret;
-        }
+        return quick_power(base, exponent);
     }
 };
