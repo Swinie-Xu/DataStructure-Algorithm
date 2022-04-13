@@ -1,22 +1,21 @@
 class Solution {
 public:
     vector<vector<int> > FindContinuousSequence(int sum) {
-        // 用的是公式，不过时间复杂度不低，而且有点笨
-        // 就是换不同的a1利用等差数列求和，来确定是不是可以有个合适的
-        // 遍历所有。。。所以时间复杂度不低
-        vector<int> part;
-        vector<vector<int> > ret;
-        for(int a1 = 1;a1<sum;++a1)
-        {
-            int length = 2;
-            while(a1*length + length*length/2 -length/2 < sum) ++length;
-            if(a1*length + length*length/2 -length/2 == sum) 
-            {
-                for(int i=a1;i<a1+length;++i) part.push_back(i);
-                ret.push_back(part);
-                part.clear();
+        // 滑动窗口的想法
+        // 代码是直接复制的，感觉不是很难，没有自己写
+        vector<vector<int>> result;
+        int dis=1,p1=1,i;     //dis记录窗口的间隔，p1记录窗口左侧元素
+        while(dis*(dis+1)/2 < sum){      //满足第一个条件
+            if((sum - dis*(dis+1)/2) % (dis+1) == 0){      //满足第二个条件
+                p1 = (sum - dis*(dis+1)/2) / (dis+1);      //求窗口的左侧元素
+                vector<int> v;
+                for(i=p1;i<=p1+dis;i++)     //保存符合条件的序列
+                    v.push_back(i);
+                result.push_back(v);
             }
+            dis++; // 间隔从小到大
         }
-        return ret;
+        reverse(result.begin(), result.end());     //序列间逆置处理
+        return result;
     }
 };
