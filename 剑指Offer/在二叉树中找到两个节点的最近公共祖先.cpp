@@ -1,56 +1,33 @@
-/**
- * struct TreeNode {
- *	int val;
- *	struct TreeNode *left;
- *	struct TreeNode *right;
- * };
- */
 
 class Solution {
 public:
-    /**
-     * 
-     * @param root TreeNode类 
-     * @param o1 int整型 
-     * @param o2 int整型 
-     * @return int整型
-     */
-    
-    // 这里是我照着答案敲得，不然没法理解他的意思
-    // 不过还好，能大概看懂
-    
-    bool found = false;    //标记是否找到了
-    
-    void dfs(vector<int>& road,TreeNode* root,int o)
+        /*
+        递归情况：
+        1.当到达空节点（既叶子节点的子节点）时，直接返回空
+        2.当root等于 o1 或 o2 时，返回root
+        3.若不为1， 2中情况，说明需要继续处理：
+        对左子树进行递归，返回值记为 t1
+        对右子树进行递归，返回值记位 t2
+        t1 ，t2 存在以下几种情况：
+        ①. 当t1, t2都为空时，说明root的左右子树中都不存在o1, o2， 返回空
+        ②. 当t1为空且t2不为空时，说明左子树找不到 o1, o2,所以返回 t2
+        ③. 当t2为空且t1不为空时，说明右子树找不到 o1, o2,所以返回 t1
+        ④. 当t1, t2都不为空时,说明o1, o2分别位于root的左右子树中，既root为答案，返回root
+        */
+    TreeNode* dfs(TreeNode* root,int o1,int o2)
     {
-        if(found || root==nullptr) return;    //已经找到或者到达空节点
-        road.push_back(root->val);    //加入数组
-        if(root->val == o)
-        {
-            found = true;
-            return;
-        }
-        dfs(road,root->left,o);
-        dfs(road,root->right,o);
-        if(found) return;    //防止将节点去除
-        road.pop_back();    //不在这条路径，去除节点
+        if(root == nullptr) return nullptr;//超过叶节点，返回空
+        if(root->val == o1 || root->val == o2) return root;//节点为其中一个
+        TreeNode* t1 = dfs(root->left,o1,o2);
+        TreeNode* t2 = dfs(root->right,o1,o2);
+        if(t1 == nullptr) return t2;//此时两个节点都在右侧
+        if(t2 == nullptr) return t1;//此时两个节点都在左侧
+        return root;//此时两个节点分别位于左右两侧
     }
     
     int lowestCommonAncestor(TreeNode* root, int o1, int o2) {
         // write code here
-        vector<int>road1,road2;
-        dfs(road1,root,o1);    //找到 root到o1路径
-        found = false; //重置标记
-        dfs(road2,root,o2);    //找到 root到o2路径
-        int leng = min(road1.size(), road2.size());
-        //寻找最后一个相等节点
-        for(int i=0;i<leng;++i)
-        {
-            if(road1[i] != road2[i] )
-            {
-                return road1[i-1];
-            }
-        } 
-        return road2[leng-1];// 这里就是两个路径在截断处都是相等，所以最后一个就是了
+        // 其实我不是很明白。。。写完了去好好看看dfs和bfs的C++实现
+        return dfs(root,o1,o2)->val;  
     }
 };
