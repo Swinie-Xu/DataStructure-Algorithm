@@ -1,34 +1,29 @@
 
 class Solution {
 public:
-    /**
-     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
-     *
-     * 
-     * @param proot TreeNode类 
-     * @param k int整型 
-     * @return int整型
-     */
     
-    // 中序遍历，递归写法
-    // 抄https://blog.nowcoder.net/n/28ac73092b7c4c788b1d7710b09138c2?f=comment的答案，不过自己还是学了一些啦，怎么会单纯抄
-    // https://blog.nowcoder.net/n/28ac73092b7c4c788b1d7710b09138c2?f=comment
-    TreeNode* res = nullptr;//记录返回的结点
-    int cnt = 0;//记录中序遍历了多少个
-    
-    void midOrder(TreeNode* root,int k)
-    {
-        if(root == nullptr || cnt > k) return;//当遍历到结点为空或者超过k时，返回
-        midOrder(root->left, k);
-        cnt++;
-        if(cnt == k) res = root;//只记录第k个
-        midOrder(root->right, k);
-    }
+        // 中序遍历，非递归写法
+        // 只是缕了一下运行过程，但是其实并不熟悉
     int KthNode(TreeNode* proot, int k) {
         // write code here
-        midOrder(proot, k);
-        if(res) return res->val;
-        else return -1;//二叉树为空，或是找不到
+        if(proot==nullptr) return -1;
+        int cnt = 0;    //记录遍历了多少个数
+        TreeNode* p = nullptr;
+        stack<TreeNode*> s;    //用栈辅助建立中序
+        while(!s.empty() || proot != nullptr)
+        {
+            while(proot != nullptr)
+            {
+                s.push(proot);
+                proot = proot->left;    //中序遍历每棵子树从最左开始
+            }
+            p = s.top();
+            s.pop();
+            cnt++;
+            if(cnt == k) return p->val;    //第k个直接返回
+            proot = p->right;
+        }
+        return -1;    //没有找到
         
     }
 };
