@@ -11,27 +11,26 @@ struct TreeLinkNode {
 */
 class Solution {
 public:
-    // 我自己写的哈！！！
-    vector<TreeLinkNode*> arr;
-    void Mid_order(TreeLinkNode* root)
-    {
-        if(!root) return;
-        Mid_order(root->left);
-        arr.push_back(root);
-        Mid_order(root->right);
-    }
+    // 看的讲解，最优解法
     
     TreeLinkNode* GetNext(TreeLinkNode* pNode) {
+        if(!pNode) return nullptr;
         
-        TreeLinkNode* pRoot=pNode;
-        // 太傻了，我下面那个pRoot写成pNode了，结果错了半天，服了真的
-        while(pRoot->next) pRoot = pRoot->next;  // 找到根节点
-        
-        Mid_order(pRoot);   // 中序遍历
-        
-        for(int i=0;i<arr.size();++i)
+        // 1、有右子树，下一结点是右子树中的最左结点
+        if(pNode->right)
         {
-            if(arr[i] == pNode && i+1!= arr.size()) return arr[i+1];
+            pNode = pNode->right;
+            while(pNode->left) pNode = pNode->left;
+            return pNode;
+        }
+        
+        // 无右子树，且结点是该结点父结点的左子树，则下一结点是该结点的父结点
+        // 无右子树，且结点是该结点父结点的右子树，则一直沿着父结点追朔，
+        // 直到找到某个结点是其父结点的左子树，如果存在这样的结点，那么这个结点的父结点就是我们要找的下一结点。
+        while(pNode->next)
+        {
+            if(pNode->next->left == pNode) return pNode->next; 
+            pNode = pNode->next;
         }
         return nullptr;
     }
