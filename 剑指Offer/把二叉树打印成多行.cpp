@@ -13,6 +13,7 @@ public:
         // 啊啊啊啊啊啊 我自己写的BFS啊！！！！
         // 简直了，开心
         // 真就是最简单的BFS啊！！！我实现了，虽然性能依然垃圾，但是我自己做的
+        // 几乎所有的都是这样的答案，这里仅仅改进了for循环成while循环
         vector<vector<int>> res;
         queue<TreeNode*> s;
     
@@ -23,7 +24,7 @@ public:
             while(!s.empty())
             {
                 int cnt = s.size();
-                for(int i=0;i<cnt;++i)
+                while(cnt--)  // 这个写法更快！！！
                 {
                     if(s.front()->left) s.push(s.front()->left);
                     if(s.front()->right) s.push(s.front()->right);
